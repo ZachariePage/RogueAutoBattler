@@ -490,8 +490,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1408436219}
   - component: {fileID: 1408436220}
+  - component: {fileID: 1408436221}
+  - component: {fileID: 1408436222}
   m_Layer: 0
-  m_Name: Managers
+  m_Name: PersitentManagers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -532,6 +534,31 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4ad82b9d10b36af499e8c2105b7b71db, type: 2}
   - {fileID: 11400000, guid: 8eb5941737bdbf44db411f71a5b75d97, type: 2}
   settings: {fileID: 11400000, guid: d2ebd684360077e419eeca0aee1958e0, type: 2}
+--- !u!114 &1408436221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1408436218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dcff3d5b90365d44bafcf40e4dd85aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  units: []
+--- !u!114 &1408436222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1408436218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b686e31f9e0bbab4b94095161efadecd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1487746941
 GameObject:
   m_ObjectHideFlags: 0

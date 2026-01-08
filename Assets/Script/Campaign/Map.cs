@@ -19,7 +19,6 @@ public class Map
         height = inHeight;
         
         GenerateMap();
-        Debug.Log("Map Generated");
     }
     
     void GenerateMap()
@@ -141,27 +140,6 @@ public class Map
         endNode.AddPreviousNode(grid[height - 2, 2]);
         
         startNode.ChangeState(NodeState.Available);
-        PrintGrid(grid);
-    }
-    
-    void PrintGrid(Nodes[,] grid)
-    {
-        string output = "";
-        int gridHeight = grid.GetLength(0);
-        int gridWidth = grid.GetLength(1);
-        
-        for (int h = 0; h < gridHeight; h++)
-        {
-            string row = "[";
-            for (int w = 0; w < gridWidth; w++)
-            {
-                row += grid[h, w] != null ? "1" : "0";
-                if (w < gridWidth - 1) row += " ";
-            }
-            row += "]";
-            output += row + "\n";
-        }
-        Debug.Log(output);
     }
 
     Nodes CreateNode(int id, int depth, int path, NodeType nodeType, int MoneyPerNode)

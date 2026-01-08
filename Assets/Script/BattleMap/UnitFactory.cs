@@ -8,9 +8,6 @@ public class UnitFactory : MonoBehaviour
 
     public GameObject[] spawnzones;
     public List<AbilityTemplate> abilities;
-    public int counter = 0;
-
-    public bool stoptest = false;
 
     public static Dictionary<string, AbilityTemplate> lookup;
 
@@ -30,20 +27,10 @@ public class UnitFactory : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C) && stoptest == false)
-        {
-            stoptest = true;
-            foreach (UnitSaveData unit in CampaignRoster.Instance.units)
-            {
-                GameObject spawn = spawnzones[counter];
-                SpawnUnit(unit, unit.baseUnit, spawn.transform.position);
-                counter++;
-            }
-            counter = 0;
-        }
+       
     }
 
-    public void SpawnUnit(UnitSaveData data, UnitDefinition def, Vector3 pos)
+    public void SpawnUnit(UnitSaveData data, UnitDefinition def, Vector3 pos, string team)
     {
         GameObject go = Instantiate(def.prefab, pos, Quaternion.identity);
         Unit unit = go.GetComponent<Unit>();

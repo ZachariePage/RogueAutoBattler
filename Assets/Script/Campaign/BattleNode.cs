@@ -21,6 +21,7 @@ public class BattleNode : Nodes
     public override void Execute()
     {
         base.Execute();
+        SceneLoader.Instance.LoadFightScene(Units);
     }
 
     private void CreateUnitStack()
@@ -55,12 +56,9 @@ public class BattleNode : Nodes
             List<AbilitySaveData> startingabilities = new List<AbilitySaveData>();
             foreach (AbilityTemplate ability in randomUnit.startingAbilities)
             {
-                startingabilities.Add(new AbilitySaveData
-                {
-                    abilityId = ability.abilityId,
-                    cooldownModifier = 0f,
-                    level = 0
-                });
+                startingabilities.Add(
+                    new AbilitySaveData(ability.abilityId, 0, 0f)
+                );
             }
             Units.Add(new UnitSaveData
             {
@@ -94,12 +92,6 @@ public class BattleNode : Nodes
                 unit.BuffDamage(settings.damageBuffStep);
                 statBudget -= settings.damageBuffCost;
             }
-        }
-
-        Debug.Log($"BattleNode {id} generated {Units.Count} units");
-        foreach (var u in Units)
-        {
-            Debug.Log($"- {u.baseUnit.name} HP:{u.health} DMG:{u.damage}");
         }
 
         safety = 1000;
@@ -149,12 +141,9 @@ public class BattleNode : Nodes
 
             abilityBudget -= template.cost;
 
-            target.abilities.Add(new AbilitySaveData
-            {
-                abilityId = template.abilityId,
-                level = 0,
-                cooldownModifier = 0f
-            });
+            target.abilities.Add(
+                new AbilitySaveData(template.abilityId, 0, 0f)
+            );
         }
 
     }
