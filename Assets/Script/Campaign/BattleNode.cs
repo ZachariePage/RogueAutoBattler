@@ -38,36 +38,24 @@ public class BattleNode : Nodes
         int abilityBudget = remainingBudget - statBudget;
         
         List<UnitDefinition> availableUnits = new List<UnitDefinition>(bank.units);
-
-        int unitCount = Random.Range(settings.minUnits, settings.maxUnits + 1);
         
         int safety = 1000;
         while (!BudgetIsLessThanLeastExpensiveUnit(unitBudget) && safety-- > 0)
         {
-            UnitDefinition randomUnit =
-                UnitBank.Instance.units[Random.Range(0, UnitBank.Instance.units.Count)];
+            UnitDefinition randomUnit = UnitBank.Instance.units[Random.Range(0, UnitBank.Instance.units.Count)];
 
             int cost = randomUnit.BaseCost();
             
-            if (cost > unitBudget)
-                continue;
+            if (cost > unitBudget) continue;
 
             unitBudget -= cost;
             List<AbilitySaveData> startingabilities = new List<AbilitySaveData>();
             foreach (AbilityTemplate ability in randomUnit.startingAbilities)
             {
-                startingabilities.Add(
-                    new AbilitySaveData(ability.abilityId, 0, 0f)
-                );
+                startingabilities.Add(new AbilitySaveData(ability.abilityId, 0, 0f));
             }
-            Units.Add(new UnitSaveData
-            {
-                baseUnit = randomUnit,
-                unitId = randomUnit.ToString(),
-                health = randomUnit.baseHealth,
-                damage = randomUnit.baseDamage,
-                abilities = startingabilities
-            });
+            
+            Units.Add(new UnitSaveData(randomUnit, randomUnit.ToString(), randomUnit.baseHealth, randomUnit.baseDamage, startingabilities));
         }
         
 
@@ -98,17 +86,12 @@ public class BattleNode : Nodes
 
         while (!BudgetIsLessThanCheapestAbilityAction(abilityBudget, settings) && safety-- > 0)
         {
-            // Decide action
             bool tryUpgrade = Random.value < 0.5f;
 
-            // -----------------------------
-            // UPGRADE EXISTING ABILITY
-            // -----------------------------
+            //upgrade
             if (tryUpgrade && abilityBudget >= settings.upgradeCost)
             {
-                // Units with at least one ability
-                List<UnitSaveData> upgradableUnits =
-                    Units.FindAll(u => u.abilities.Count > 0);
+                List<UnitSaveData> upgradableUnits = Units.FindAll(u => u.abilities.Count > 0);
 
                 if (upgradableUnits.Count > 0)
                 {
@@ -122,28 +105,31 @@ public class BattleNode : Nodes
                 }
             }
 
-            // -----------------------------
-            // BUY NEW ABILITY
-            // -----------------------------
-            List<UnitSaveData> validUnits =
-                Units.FindAll(u => u.abilities.Count < settings.maxAbilitiesPerUnit);
+            //buy
+            List<UnitSaveData> validUnits = Units.FindAll(u => u.abilities.Count < settings.maxAbilitiesPerUnit);
 
-            if (validUnits.Count == 0)
-                continue;
+            if (validUnits.Count == 0) continue;
 
-            AbilityTemplate template =
-                UnitBank.Instance.abilities[Random.Range(0, UnitBank.Instance.abilities.Count)];
+            AbilityTemplate template = UnitBank.Instance.abilities[Random.Range(0, UnitBank.Instance.abilities.Count)];
 
-            if (template.cost > abilityBudget)
-                continue;
+            if (template.cost > abilityBudget) continue;
 
             UnitSaveData target = validUnits[Random.Range(0, validUnits.Count)];
+            
+            AbilitySaveData existing = target.abilities.Find(a => a.abilityId == template.abilityId);
 
+            if (existing != null)
+            {
+                if (abilityBudget >= settings.upgradeCost)
+                {
+                    existing.level++;
+                    abilityBudget -= settings.upgradeCost;
+                }
+                continue;
+            }
+            
             abilityBudget -= template.cost;
-
-            target.abilities.Add(
-                new AbilitySaveData(template.abilityId, 0, 0f)
-            );
+            target.abilities.Add(new AbilitySaveData(template.abilityId, 0, 0f));
         }
 
     }

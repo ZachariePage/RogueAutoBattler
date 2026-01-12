@@ -14,4 +14,12 @@ public class AbilitySaveData
         this.level = level;
         this.cooldownModifier = cooldownModifier;
     }
+    
+    //copy constructor
+    public AbilitySaveData(AbilitySaveData other)
+    {
+        abilityId = other.abilityId;
+        level = other.level;
+        cooldownModifier = other.cooldownModifier;
+    }
 }

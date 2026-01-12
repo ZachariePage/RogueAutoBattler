@@ -21,7 +21,7 @@ public class ArmyGenerationSettings : ScriptableObject
     public int damageBuffCost = 5;
 
     [Header("Abilities")]
-    public int maxAbilitiesPerUnit = 3;
+    public int maxAbilitiesPerUnit = 10;
     public float chanceToBuyNewAbility = 0.6f;
     public int upgradeCost = 5;
 

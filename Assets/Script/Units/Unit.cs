@@ -22,10 +22,14 @@ public class UnitEvents
 public class Unit : MonoBehaviour
 {
     public StateMachine StateMachine;
+    
+    public UnitDefinition MyUnit;
 
     public ChaseState ChaseState;
     public AttackState AttackState;
     public ChargeState ChargeState;
+
+    public ITargetingStrategy targetStategy;
 
     [Header("State Configs")]
     [SerializeField] private ChaseStateSO chaseStateSO;
@@ -68,10 +72,15 @@ public class Unit : MonoBehaviour
         ChaseState = new ChaseState(this, StateMachine, chaseStateSO);
         AttackState = new AttackState(this, StateMachine, attackStateSO);
         ChargeState = new ChargeState(this, StateMachine, chargeStateSO);
-
+        
         abilityCoordinator = GetComponent<AbilityCoordinator>();
         
         Events = new UnitEvents();
+    }
+    
+    public void Initialize()
+    {
+        InitializeStrategies();
         
         StateMachine.Init(ChaseState);
     }
@@ -96,6 +105,11 @@ public class Unit : MonoBehaviour
         }
     }
 
+    private void InitializeStrategies()
+    {
+        targetStategy = MyUnit.closestTargetStrategy.Create();
+    }
+
     public virtual void FixedUpdate()
     {
         StateMachine.CurrentState.PhysicUpdate();
@@ -104,16 +118,16 @@ public class Unit : MonoBehaviour
     public GameObject FindClosestPlayerInRadius(Vector3 center, float radius)
     {
         GameObject closestPlayer = null;
-        float closestDistanceSqr = float.MaxValue;
+        float closestDistance = float.MaxValue;
         
         Collider[] hitColliders = Physics.OverlapSphere(center, radius, LayerMask.GetMask("Team1"));
         foreach (var hitCollider in hitColliders)
         {
-            float dSqrToPlayer = (hitCollider.transform.position - this.transform.position).sqrMagnitude;
+            float distanceSquare = (hitCollider.transform.position - this.transform.position).sqrMagnitude;
 
-            if (dSqrToPlayer < closestDistanceSqr)
+            if (distanceSquare < closestDistance)
             {
-                closestDistanceSqr = dSqrToPlayer;
+                closestDistance = distanceSquare;
                 closestPlayer = hitCollider.gameObject;
             }
         }

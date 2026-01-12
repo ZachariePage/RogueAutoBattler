@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d400eb3b99dbc8f43bc29a6eb1194fdc, type: 3}
   m_Name: ChargeStateSO
   m_EditorClassIdentifier: 
-  AgentStopDistance: 1
+  AgentStopDistance: 2
   attackDistance: 0

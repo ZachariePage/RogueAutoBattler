@@ -13,6 +13,7 @@ public class ChargeState : State
     public override void EnterState()
     {
         base.EnterState();
+        unit.Agent.stoppingDistance = config.AgentStopDistance;
         AbilityInstance ability = unit.abilityCoordinator.RequestBestAbilityAvailable(AbilityType.OnCharge, unit, unit.targetGO);
         if (ability != null)
         {
@@ -23,6 +24,13 @@ public class ChargeState : State
             Debug.Log("ability could not be found");
         }
         target = unit.targetGO;
+    }
+    
+    GameObject FindTarget()
+    {
+        target = unit.targetStategy.SelectTarget(unit, unit.teamString);
+        unit.targetGO = target;
+        return target;
     }
 
     public override void ExitState()

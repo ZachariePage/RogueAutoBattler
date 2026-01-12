@@ -33,14 +33,7 @@ public class AiArmy : MonoBehaviour
         
         foreach (UnitSaveData unit in newUnits)
         {
-            units.Add(new UnitSaveData
-            {
-                baseUnit = unit.baseUnit,
-                unitId = unit.unitId,
-                health = unit.health,
-                damage = unit.damage,
-                abilities = new List<AbilitySaveData>(unit.abilities)
-            });
+            units.Add(new UnitSaveData(unit));
         }
     }
 }

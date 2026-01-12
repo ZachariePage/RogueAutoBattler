@@ -12,6 +12,7 @@ public class AttackState : State
     public override void EnterState()
     {
         base.EnterState();
+        unit.Agent.stoppingDistance = config.AgentStopDistance;
     }
 
     public override void ExitState()

@@ -16,7 +16,8 @@ public class ChaseState : State
     {
         base.EnterState();
         unit.movementAuthority = MovementAuthority.StateMachine;
-        target = unit.FindClosestPlayerInRadius(unit.transform.position, config.LookForRadius);
+        //target = unit.FindClosestPlayerInRadius(unit.transform.position, config.LookForRadius);
+        target = FindTarget();
         unit.Agent.stoppingDistance = config.AgentStopDistance;
     }
 
@@ -63,10 +64,16 @@ public class ChaseState : State
         }
         else if (target == null)
         {
-            target = unit.FindClosestPlayerInRadius(unit.transform.position, config.LookForRadius);
+            
         }
     }
-    
+
+    GameObject FindTarget()
+    {
+        target = unit.targetStategy.SelectTarget(unit, unit.teamString);
+        unit.targetGO = target;
+        return target;
+    }
     public override void PhysicUpdate()
     {
         base.PhysicUpdate();

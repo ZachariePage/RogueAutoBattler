@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 820d30fcac077ff47bad2573fb703da0, type: 3}
   m_Name: ChaseStateSO
   m_EditorClassIdentifier: 
-  AgentStopDistance: 0
+  AgentStopDistance: 1
   refreshLookForTargetTimer: 5
   LookForRadius: 100
   chargeDistance: 10

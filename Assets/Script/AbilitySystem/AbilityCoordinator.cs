@@ -16,6 +16,7 @@ public class AbilityCoordinator : MonoBehaviour
     private void Awake()
     {
         unit = GetComponent<Unit>();
+        abilities = new List<AbilityInstance>();
     }
 
     public void LoadFromSave(List<AbilitySaveData> savedAbilities)

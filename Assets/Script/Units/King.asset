@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f818012581f084ab072b8afc4aa912, type: 3}
   m_Name: King
   m_EditorClassIdentifier: 
-  prefab: {fileID: 6969979908926048051, guid: 4c2a02672f2cf614e9369aeff0a29ba3, type: 3}
+  prefab: {fileID: 3433330245780785233, guid: 8d3a795ad75091c4cace0577c5edda24, type: 3}
   UnitCost: 40
   baseHealth: 5
   baseDamage: 1
   startingAbilities:
   - {fileID: 11400000, guid: 8eb5941737bdbf44db411f71a5b75d97, type: 2}
   - {fileID: 11400000, guid: 4ad82b9d10b36af499e8c2105b7b71db, type: 2}
+  closestTargetStrategy: {fileID: 11400000, guid: 1a05049309211ed4eb74750498229db9, type: 2}

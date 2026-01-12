@@ -58,10 +58,13 @@ public class BerserkChargeInstance : AbilityInstance
     public override void Update(float dt)
     {
         base.Update(dt);
-
+        
+        if (unit == null || abilityTarget == null)
+            return;
+        
         if (Vector3.Distance(unit.transform.position, abilityTarget.transform.position) < 2)
         {
-            //do damage
+            //todo damage
             OnAbilityEnd(unit);
         }
     }

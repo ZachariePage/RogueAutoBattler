@@ -6,16 +6,12 @@ public class UnitFactory : MonoBehaviour
 {
     public static UnitFactory Instance { get; private set; }
 
-    public GameObject[] spawnzones;
-    public List<AbilityTemplate> abilities;
-
     public static Dictionary<string, AbilityTemplate> lookup;
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Debug.LogWarning("Duplicate UnitFactory detected, destroying.");
             Destroy(gameObject);
             return;
         }
@@ -30,35 +26,40 @@ public class UnitFactory : MonoBehaviour
        
     }
 
-    public void SpawnUnit(UnitSaveData data, UnitDefinition def, Vector3 pos, string team)
+    public void SpawnUnit(UnitSaveData data, UnitDefinition def, Vector3 pos, string team, string enemyTeam)
     {
-        GameObject go = Instantiate(def.prefab, pos, Quaternion.identity);
-        Unit unit = go.GetComponent<Unit>();
+        GameObject newUnit = Instantiate(def.prefab, pos, Quaternion.identity);
+        Unit unit = newUnit.GetComponent<Unit>();
         
         unit.health = data.health;
         unit.damage = data.damage;
+        unit.MyUnit = def;
 
         unit.abilityCoordinator.LoadFromSave(data.abilities);
+
+        newUnit.tag = team;
+        newUnit.layer = LayerMask.NameToLayer(team);
+        unit.teamString = enemyTeam;
+        
+        unit.Initialize();
     }
 
     private void InitializeLookup()
     {
         lookup = new Dictionary<string, AbilityTemplate>();
 
-        foreach (var ability in abilities)
+        foreach (var ability in UnitBank.Instance.abilities)
         {
             if (ability == null)
                 continue;
 
             if (string.IsNullOrEmpty(ability.abilityId))
             {
-                Debug.LogError($"Ability {ability.abilityName} has no ID");
                 continue;
             }
 
             if (lookup.ContainsKey(ability.abilityId))
             {
-                Debug.LogError($"Duplicate ability ID: {ability.abilityId}");
                 continue;
             }
 
@@ -70,13 +71,11 @@ public class UnitFactory : MonoBehaviour
     {
         if (lookup == null)
         {
-            Debug.LogError("UnitFactory not initialized.");
             return null;
         }
 
         if (!lookup.TryGetValue(id, out var ability))
         {
-            Debug.LogError($"Ability ID not found: {id}");
         }
 
         return ability;

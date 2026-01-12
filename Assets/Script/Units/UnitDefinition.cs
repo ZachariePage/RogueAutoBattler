@@ -9,14 +9,20 @@ public class UnitDefinition : ScriptableObject
     public float baseHealth;
     public float baseDamage;
     public List<AbilityTemplate> startingAbilities;
+    public ClosestTargetStrategySO closestTargetStrategy;
 
     public int BaseCost()
     {
         int cost = 0;
-        foreach (AbilityTemplate ability in startingAbilities)
+
+        if (startingAbilities != null)
         {
-            cost += ability.cost;
+            foreach (AbilityTemplate ability in startingAbilities)
+            {
+                cost += ability.cost;
+            }
         }
+        
         return UnitCost + cost;
     }
 }

@@ -28,7 +28,7 @@ public class Map
         int middleColumn = width / 2;
         int interval = (height - 1) / 2;
 
-        int startingBudget = 200; //this will definitely be in a scriptable object at some point
+        int startingBudget = 50; //this will definitely be in a scriptable object at some point
         
         float[] fightChance = new float[width];
         float[] baseFightChance = new float[width];
